@@ -4,9 +4,6 @@
 
 public class Main
 {
-    public static void main(String[] args)
-    {
-        //ascii art credit: http://www.oocities.org/spunk1111/bodypart.htm
         static String ASCII_ART_0 = "    .----.    .----.  ",
                 ASCII_ART_1 = "   (  --  \\  /  --  )",
                 ASCII_ART_2 = "          |  |        ",
@@ -26,6 +23,8 @@ public class Main
                 LABEL_TERMS_CONDITIONS = "Terms and Conditions", LABEL_BIRTH_DATE = "Date of Birth",
                 LABEL_SEX = "Sex", LABEL_VALID_DATE = "Valid From:", LABEL_EXPIRE_DATE = "Card Expires:",
                 LABEL_REENTRY_DISCLAIMER = "NOT VALID FOR REENTRY TO U.S.";
+    public static void main(String[] args)
+    {
 
         //DECLARATION SECTION
         //complete fields
@@ -41,21 +40,37 @@ public class Main
         String uscisNum, dateOfBirth, validDate, expireDate;
 
         //INITIALIZATION SECTION
-        surname = "CHAPETON-LAMAS";
-        givenName = "NERY";
-        uscisNum1 = 12;
-        uscisNum2 = 4;
-        uscisNum3 = 789;
-        category = "C09";
-        cardNum = "SRC9876543210";
-        birthCountry = "Guatemala";
-        termsAndConditions = "None";
+        //surname = "CHAPETON-LAMAS";
+        //givenName = "NERY";
+       //uscisNum1 = 12;
+        //uscisNum2 = 4;
+        //uscisNum3 = 789;
+        //category = "C09";
+        //cardNum = "SRC9876543210";
+        //birthCountry = "Guatemala";
+        //termsAndConditions = "None";
 
-        birthDay = 1;
-        birthMonth = "JAN";
-        birthYear = 1970;
+        //birthDay = 1;
+        //birthMonth = "JAN";
+        //birthYear = 1970;
 
-        sex = 'M'; //note single quotes
+        //UtilityBelt
+        birthDay = UtilityBelt.readInt("What day were you born?", 1, 31);
+        birthMonth = UtilityBelt.readString("What is your birth month (three characters max EX. August: AUG)", 3, 3);
+        birthYear = UtilityBelt.readInt("What year were you born in?", 1000, 9999);
+        surname = UtilityBelt.readString("What is your Surname?", 1, 100);
+        givenName= UtilityBelt.readString(" What is your Given name?", 1,100);
+        uscisNum1=UtilityBelt.readInt("What is the fisrt three numbers to your usci number?", 1 , 999);
+        uscisNum2=UtilityBelt.readInt(" What the second set of three didgits to your usci number?", 1, 999);
+        uscisNum3=UtilityBelt.readInt("what last three set of numbers to your usci nummber?", 1, 999);
+        category=UtilityBelt.readString(" What is yoir three digit category code ? ", 1, 3);
+        cardNum=UtilityBelt.readString("what is your card number?" , 1 ,13 );
+        birthCountry=UtilityBelt.readString("What country were you born in?" , 1 , 100 );
+        termsAndConditions=UtilityBelt.readString("are there terms and consitons? If none write none" , 1, 100);
+        sex=UtilityBelt.readChar("What is your sex? " ,  "M F");
+
+
+        //sex = 'M'; //note single quotes
 
         validMonth = 2;
         validDay = 2;
@@ -68,15 +83,24 @@ public class Main
         //Strings to help clean up long printf's below
         uscisNum = String.format("%03d-%03d-%03d", uscisNum1, uscisNum2, uscisNum3);
         dateOfBirth = String.format("%02d %s %d", birthDay, birthMonth, birthYear);
-        validDate = String.format("%02d/%02d/%4d", validMonth, validDay, validYear);
-        expireDate = String.format("%02d/%02d/%4d", expireMonth, expireDay, expireYear);
+        //validDate = String.format("%02d/%02d/%4d", validMonth, validDay, validYear);
+        //expireDate = String.format("%02d/%02d/%4d", expireMonth, expireDay, expireYear);
+        validDate = Main.formatDate(validMonth, validDay, validYear);
+        expireDate = Main.formatDate(expireMonth, expireDay, expireYear);
 
+        String finishedCard = Main.formatCard(surname, givenName, category, cardNum, birthCountry, termsAndConditions, sex, uscisNum, dateOfBirth, validDate, expireDate);
+        System.out.println(finishedCard);
 
         //INPUT + CALCULATION SECTION
         //N/A
 
         //OUTPUT SECTION
     }
+        public static String formatDate(int month, int day, int year)
+        {
+                String formateDate = String.format("%02d/%02d/%4d", month, day, year);
+                return formateDate;
+        }
         
     public static String formatCard(String surname, String givenName,
         String category, String cardNum, String birthCountry, 
@@ -102,7 +126,7 @@ public class Main
                 fullCard += String.format("║%-25s%-15s%-30s║%n", "", LABEL_VALID_DATE, validDate);
                 fullCard += String.format("║%-25s%-15s%-30s║%n", "", LABEL_EXPIRE_DATE, expireDate);
                 fullCard += String.format("║%-25s%-45s║%n", ASCII_CREDIT, LABEL_REENTRY_DISCLAIMER);
-                fullCard += String.format("╚══════════════════════════════════════════════════════════════════════╝%n");
+                fullCard += String.format("╚══════════════════════════════════════════════════════════════════════╝");
                 return fullCard;
         }
 
